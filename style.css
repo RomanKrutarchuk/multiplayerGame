@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+.body {
+  height: 100%;
+  font-family: "Lato", sans-serif;
+  background-color: rgb(37, 39, 53);
+}
+.scoreBoard {
+  height: 100px;
+  width: 300px;
+  background-color: rgb(77, 94, 145);
+  display: flex;
+  margin: auto;
+   margin-bottom: 10px;
+}
+.scoreOfPlayer1 {
+  width: 50%;
+  height: 100%;
+  background-color: rgb(209, 209, 209);
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  text-align: center;
+  font-size: 50px;
+}
+.scoreOfPlayer2 {
+  width: 50%;
+  height: 100%;
+  background-color: rgb(54, 54, 54);
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  text-align: center;
+  font-size: 50px;
+
+}
+.globalContainer {
+  width: max-content;
+  height: max-content;
+  margin: auto;
+  perspective: 600px;
+}
+.container {
+  transform: rotateX(45deg);
+  position: relative;
+  display: block;
+  width: 300px;
+  height: 300px;
+  text-align: center;
+  background-color: transparent;
+  transition: 2s;
+}
+.containerRotate {
+  transform: rotateZ(180deg) rotateX(-45deg);
+}
+
+.wrapper {
+  height: 100%;
+  display: grid;
+}
+.box {
+  box-sizing: border-box;
+  border: 1px solid black;
+  background-color: rgb(131, 131, 131);
+  border-radius: 5%;
+}
+
+.circle1 {
+  background-size: 100%;
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  transition: left 0.3s, right 0.3s, top 0.3s, bottom 0.3s;
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+}
+.circle2 {
+  position: absolute;
+  background-color: rgb(0, 0, 0);
+  border-radius: 50%;
+  transition: left 0.3s, right 0.3s, top 0.3s, bottom 0.3s;
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255);
+}
+.blocked {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+.gate {
+  background-color: rgb(255, 82, 82);
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+.finishGame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  background-color: rgb(75, 75, 75);
+  margin: auto;
+}
+.finishText {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  font-size: 40px;
+}
+.finishTextButton {
+  font-family: "Lato", sans-serif;
+  display: flex;
+  margin: auto;
+  height: 25px;
+  width: 100px;
+  background-color: rgb(255, 255, 255);
+  border: 0;
+  border-radius: 40px;
+}
+button:active {
+  background-color: rgb(54, 54, 54);
+}
