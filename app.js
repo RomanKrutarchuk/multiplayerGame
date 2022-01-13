@@ -4,7 +4,7 @@ const scoreOfPlayer2 = document.querySelector('.scoreBoard').querySelector('.sco
 const wrapper = document.querySelector(".wrapper");
 const globalContainer = document.querySelector(".globalContainer");
 let phase = "move";
-const bordSize = 5;
+const bordSize = 3;
 const gatePosition = Math.ceil(bordSize / 2);
 const gameState = "";
 let GameFinished = false;
@@ -29,6 +29,8 @@ function handelClick(x, y) {
     if (blockCell(x, y)) {
       phase = "move";
       swapPlayers();
+      markPlayer();
+
     }
   }
 }
@@ -105,9 +107,11 @@ function initGame() {
   createBoard();
   playerWhoWalks = selfPlayer = createChip("circle1", gate1);
   playerWhoWaits = opponentPlayer = createChip("circle2", gate2);
+  markPlayer()
   GameFinished = false;
   phase == "move";
 }
+
 
 function rotateBoard() {
   document.querySelector(".container").classList.toggle("containerRotate");
@@ -174,6 +178,11 @@ function restartGame() {
   removeFinishScren();
   removeBoard();
   setTimeout(initGame, 1000);
+}
+function markPlayer(){
+  playerWhoWalks.circle.classList.add('playerWhoWalks')
+  playerWhoWaits.circle.classList.remove('playerWhoWalks')
+
 }
 initGame();
 
