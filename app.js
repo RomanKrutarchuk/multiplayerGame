@@ -1,16 +1,57 @@
 const body = document.querySelector(".body");
-const scoreOfPlayer1 = document.querySelector('.scoreBoard').querySelector('.scoreOfPlayer1')
-const scoreOfPlayer2 = document.querySelector('.scoreBoard').querySelector('.scoreOfPlayer2')
+let scoreOfPlayer1;
+let scoreOfPlayer2;
 const wrapper = document.querySelector(".wrapper");
 const globalContainer = document.querySelector(".globalContainer");
 let phase = "move";
-const bordSize = 3;
-const gatePosition = Math.ceil(bordSize / 2);
+let bordSize = 3;
+let gatePosition;
 const gameState = "";
 let GameFinished = false;
 let playerWhoWalks;
 let playerWhoWaits;
 let score = { player1: 0, player2: 0 };
+let gate1;
+let gate2;
+const boxFromButton = document.createElement("div");
+boxFromButton.classList.add("boxFromButton");
+body.append(boxFromButton);
+
+function scoreOfGame() {
+  const scoreBoard = document.createElement("div");
+  scoreBoard.classList.add("scoreBoard");
+  body.append(scoreBoard);
+  scoreOfPlayer1 = document.createElement("div");
+  scoreOfPlayer1.classList.add("scoreOfPlayer1");
+  scoreBoard.append(scoreOfPlayer1);
+  scoreOfPlayer1.innerHTML = "0";
+  scoreOfPlayer2 = document.createElement("div");
+  scoreOfPlayer2.classList.add("scoreOfPlayer2");
+  scoreBoard.append(scoreOfPlayer2);
+  scoreOfPlayer2.innerHTML = "0";
+}
+
+function changeTheDifficulty(number_of_repeat, num_of_column) {
+  const btn = document.createElement("div");
+  btn.classList.add("initButton");
+  btn.style.gridTemplateColumns = `repeat(${num_of_column}, auto)`;
+  boxFromButton.append(btn);
+  for (let i = 0; i < number_of_repeat; i++) {
+    const microBoxOfButton = document.createElement("div");
+    microBoxOfButton.classList.add("microBoxOfButton");
+    btn.append(microBoxOfButton);
+  }
+  btn.addEventListener("click", function () {
+    removeBoard();
+    bordSize = num_of_column;
+    initGame();
+    scoreOfGame();
+    // btn.classList.toggle('initButton');
+  });
+}
+changeTheDifficulty(9, 3);
+changeTheDifficulty(25, 5);
+changeTheDifficulty(49, 7);
 
 function handelClick(x, y) {
   if (GameFinished === true) {
@@ -30,7 +71,6 @@ function handelClick(x, y) {
       phase = "move";
       swapPlayers();
       markPlayer();
-
     }
   }
 }
@@ -40,7 +80,6 @@ function moveChip(x, y) {
     playerWhoWalks.y = y;
     playerWhoWalks.circle.style.left = (100 / bordSize) * (x - 1) + "%";
     playerWhoWalks.circle.style.top = (100 / bordSize) * (y - 1) + "%";
-  
 
     return true;
   } else {
@@ -75,7 +114,7 @@ function accessibleCell(x, y) {
 function createBoard() {
   wrapper.style.gridTemplateColumns = `repeat(${bordSize}, auto)`;
   wrapper.style.gridTemplateRows = `repeat(${bordSize}, auto)`;
-  
+
   for (let y = 1; y <= bordSize; y++) {
     for (let x = 1; x <= bordSize; x++) {
       let newElement = document.createElement("div");
@@ -86,6 +125,7 @@ function createBoard() {
       wrapper.append(newElement);
     }
   }
+
   wrapper.querySelector(`.box-${gate1.x}-${gate1.y}`).classList.add("gate");
   wrapper.querySelector(`.box-${gate2.x}-${gate2.y}`).classList.add("gate");
 }
@@ -96,22 +136,23 @@ function createChip(circleName, position) {
   wrapper.append(circle);
   circle.style.left = (100 / bordSize) * (position.x - 1) + "%";
   circle.style.top = (100 / bordSize) * (position.y - 1) + "%";
-  circle.style.width = (100 / bordSize) + '%';
-  circle.style.height = (100 / bordSize) + '%';
+  circle.style.width = 100 / bordSize + "%";
+  circle.style.height = 100 / bordSize + "%";
   return { x: position.x, y: position.y, circle: circle };
 }
-const gate1 = { x: gatePosition, y: 1 };
-const gate2 = { x: gatePosition, y: bordSize };
 
 function initGame() {
+  gatePosition = Math.ceil(bordSize / 2);
+  gate1 = { x: gatePosition, y: 1 };
+  gate2 = { x: gatePosition, y: bordSize };
   createBoard();
+
   playerWhoWalks = selfPlayer = createChip("circle1", gate1);
   playerWhoWaits = opponentPlayer = createChip("circle2", gate2);
-  markPlayer()
+  markPlayer();
   GameFinished = false;
   phase == "move";
 }
-
 
 function rotateBoard() {
   document.querySelector(".container").classList.toggle("containerRotate");
@@ -150,21 +191,21 @@ function createFinishScreen() {
   globalContainer.append(finishScreen);
   const button = document.createElement("button");
   button.classList.add("finishTextButton");
-
+  finishScreen.append(button);
   button.textContent = "RESTART";
   button.addEventListener("click", function () {
     restartGame();
   });
   if (playerWhoWalks.circle.classList.contains("circle1")) {
     finishScreen.textContent = "player 1 win";
-    finishScreen.classList.add("finishText");
-    score.player1 += 1
-    scoreOfPlayer1.innerHTML = score.player1
+    finishScreen.classList.add("finishGame");
+    score.player1 += 1;
+    scoreOfPlayer1.innerHTML = score.player1;
   } else if (playerWhoWalks.circle.classList.contains("circle2")) {
     finishScreen.textContent = "player 2 win";
-    finishScreen.classList.add("finishText");
-    score.player2 += 1
-    scoreOfPlayer2.innerHTML = score.player2
+    finishScreen.classList.add("finishGame");
+    score.player2 += 1;
+    scoreOfPlayer2.innerHTML = score.player2;
   }
   finishScreen.append(button);
 }
@@ -179,23 +220,10 @@ function restartGame() {
   removeBoard();
   setTimeout(initGame, 1000);
 }
-function markPlayer(){
-  playerWhoWalks.circle.classList.add('playerWhoWalks')
-  playerWhoWaits.circle.classList.remove('playerWhoWalks')
-
+function markPlayer() {
+  playerWhoWalks.circle.classList.add("playerWhoWalks");
+  playerWhoWaits.circle.classList.remove("playerWhoWalks");
 }
-initGame();
-
-
-
-
-
-
-
-
-
-
-
 
 //задача
 // function updateLight(current) {
